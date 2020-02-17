@@ -1,0 +1,9 @@
+<?php
+
+namespace FondOfSpryker\Zed\ProductPageSearch\Business\Publisher;
+
+use Spryker\Zed\ProductPageSearch\Business\Publisher\ProductAbstractPagePublisherInterface as SprykerProductAbstractPagePublisherInterface;
+
+interface ProductAbstractPagePublisherInterface extends SprykerProductAbstractPagePublisherInterface
+{
+}

@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\ProductPageSearch\Persistence;
 
+use FondOfSpryker\Zed\ProductPageSearch\Dependency\QueryContainer\ProductPageSearchToProductQueryContainerInterface;
 use FondOfSpryker\Zed\ProductPageSearch\ProductPageSearchDependencyProvider;
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
 use Spryker\Zed\ProductPageSearch\Persistence\ProductPageSearchPersistenceFactory as SprykerProductPageSearchPersistenceFactory;
@@ -17,5 +18,18 @@ class ProductPageSearchPersistenceFactory extends SprykerProductPageSearchPersis
     public function getStoreFacade(): ProductPageSearchToStoreFacadeInterface
     {
         return $this->getProvidedDependency(ProductPageSearchDependencyProvider::FACADE_STORE);
+    }
+
+    public function getProductQueryContainer(): ProductPageSearchToProductQueryContainerInterface
+    {
+        return $this->getProvidedDependency(ProductPageSearchDependencyProvider::QUERY_CONTAINER_PRODUCT);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInterface
+     */
+    public function getPublicQueryContainer(): ProductPageSearchQueryContainerInterface
+    {
+        return $this->getQueryContainer();
     }
 }
