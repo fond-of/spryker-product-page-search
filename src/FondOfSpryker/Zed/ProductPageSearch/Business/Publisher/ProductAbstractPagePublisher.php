@@ -9,6 +9,7 @@ use Spryker\Zed\ProductPageSearch\Business\Model\ProductPageSearchWriterInterfac
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInterface;
 use Spryker\Zed\ProductPageSearch\Business\Publisher\ProductAbstractPagePublisher as SprykerProductAbstractPagePublisher;
+use Spryker\Zed\ProductPageSearch\ProductPageSearchConfig;
 
 class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher implements ProductAbstractPagePublisherInterface
 {
@@ -41,6 +42,7 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
      * @param  \Spryker\Zed\ProductPageSearch\Business\Model\ProductPageSearchWriterInterface  $productPageSearchWriter
      * @param  \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface  $storeFacade
      * @param  \FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchRepositoryInterface  $repository
+     * @param \Spryker\Zed\ProductPageSearch\ProductPageSearchConfig $productPageSearchConfig
      * @param  \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeInterface  $localeFacade
      */
     public function __construct(
@@ -51,10 +53,11 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
         ProductPageSearchWriterInterface $productPageSearchWriter,
         ProductPageSearchToStoreFacadeInterface $storeFacade,
         ProductPageSearchRepositoryInterface $repository,
+        ProductPageSearchConfig $productPageSearchConfig,
         ProductPageSearchToLocaleFacadeInterface $localeFacade
     ) {
         parent::__construct($queryContainer, $pageDataExpanderPlugins, $productPageDataLoaderPlugins,
-            $productPageSearchMapper, $productPageSearchWriter, $storeFacade);
+            $productPageSearchMapper, $productPageSearchWriter, $productPageSearchConfig, $storeFacade);
         $this->storeFacade = $storeFacade;
         $this->queryContainer = $queryContainer;
         $this->repository = $repository;

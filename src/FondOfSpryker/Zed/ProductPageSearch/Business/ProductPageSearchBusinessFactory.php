@@ -18,7 +18,6 @@ class ProductPageSearchBusinessFactory extends SprykerProductPageSearchBusinessF
 {
     /**
      * @return \FondOfSpryker\Zed\ProductPageSearch\Business\Publisher\ProductAbstractPagePublisher|\Spryker\Zed\ProductPageSearch\Business\Publisher\ProductAbstractPagePublisherInterface
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function createProductAbstractPagePublisher()
     {
@@ -30,14 +29,13 @@ class ProductPageSearchBusinessFactory extends SprykerProductPageSearchBusinessF
             $this->createProductPageWriter(),
             $this->getStoreFacade2(),
             $this->getRepository(),
+            $this->getConfig(),
             $this->getLocaleFacade()
         );
     }
 
     /**
      * @return \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface
-     *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getStoreFacade2(): ProductPageSearchToStoreFacadeInterface
     {
@@ -46,8 +44,6 @@ class ProductPageSearchBusinessFactory extends SprykerProductPageSearchBusinessF
 
     /**
      * @return \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeInterface
-     *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getLocaleFacade(): ProductPageSearchToLocaleFacadeInterface
     {
