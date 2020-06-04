@@ -2,6 +2,8 @@
 
 namespace FondOfSpryker\Zed\ProductPageSearch\Business;
 
+use FondOfSpryker\Zed\ProductPageSearch\Business\Mapper\ProductPageSearchMapper;
+use FondOfSpryker\Zed\ProductPageSearch\Business\Mapper\ProductPageSearchMapperInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Business\Publisher\ProductAbstractPagePublisher;
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
@@ -31,6 +33,18 @@ class ProductPageSearchBusinessFactory extends SprykerProductPageSearchBusinessF
             $this->getRepository(),
             $this->getConfig(),
             $this->getLocaleFacade()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\ProductPageSearch\Business\Mapper\ProductPageSearchMapperInterface
+     */
+    protected function createProductPageMapper(): ProductPageSearchMapperInterface
+    {
+        return new ProductPageSearchMapper(
+            $this->createProductPageAttribute(),
+            $this->createProductAbstractSearchDataMapper(),
+            $this->getUtilEncoding()
         );
     }
 
