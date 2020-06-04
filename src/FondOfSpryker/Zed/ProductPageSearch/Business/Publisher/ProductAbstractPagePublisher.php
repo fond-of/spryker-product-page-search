@@ -3,11 +3,11 @@
 namespace FondOfSpryker\Zed\ProductPageSearch\Business\Publisher;
 
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeInterface;
+use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
+use FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchRepositoryInterface;
 use Spryker\Zed\ProductPageSearch\Business\Mapper\ProductPageSearchMapperInterface;
 use Spryker\Zed\ProductPageSearch\Business\Model\ProductPageSearchWriterInterface;
-use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
-use FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInterface;
 use Spryker\Zed\ProductPageSearch\Business\Publisher\ProductAbstractPagePublisher as SprykerProductAbstractPagePublisher;
 use Spryker\Zed\ProductPageSearch\ProductPageSearchConfig;
 
@@ -34,16 +34,15 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
     protected $localeFacade;
 
     /**
-     * ProductAbstractPagePublisher constructor.
-     * @param  \FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInterface  $queryContainer
-     * @param  array  $pageDataExpanderPlugins
-     * @param  array  $productPageDataLoaderPlugins
-     * @param  \Spryker\Zed\ProductPageSearch\Business\Mapper\ProductPageSearchMapperInterface  $productPageSearchMapper
-     * @param  \Spryker\Zed\ProductPageSearch\Business\Model\ProductPageSearchWriterInterface  $productPageSearchWriter
-     * @param  \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface  $storeFacade
-     * @param  \FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchRepositoryInterface  $repository
+     * @param \FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInterface $queryContainer
+     * @param array $pageDataExpanderPlugins
+     * @param array $productPageDataLoaderPlugins
+     * @param \Spryker\Zed\ProductPageSearch\Business\Mapper\ProductPageSearchMapperInterface $productPageSearchMapper
+     * @param \Spryker\Zed\ProductPageSearch\Business\Model\ProductPageSearchWriterInterface $productPageSearchWriter
+     * @param \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface $storeFacade
+     * @param \FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchRepositoryInterface $repository
      * @param \Spryker\Zed\ProductPageSearch\ProductPageSearchConfig $productPageSearchConfig
-     * @param  \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeInterface  $localeFacade
+     * @param \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeInterface $localeFacade
      */
     public function __construct(
         ProductPageSearchQueryContainerInterface $queryContainer,
@@ -56,8 +55,15 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
         ProductPageSearchConfig $productPageSearchConfig,
         ProductPageSearchToLocaleFacadeInterface $localeFacade
     ) {
-        parent::__construct($queryContainer, $pageDataExpanderPlugins, $productPageDataLoaderPlugins,
-            $productPageSearchMapper, $productPageSearchWriter, $productPageSearchConfig, $storeFacade);
+        parent::__construct(
+            $queryContainer,
+            $pageDataExpanderPlugins,
+            $productPageDataLoaderPlugins,
+            $productPageSearchMapper,
+            $productPageSearchWriter,
+            $productPageSearchConfig,
+            $storeFacade
+        );
         $this->storeFacade = $storeFacade;
         $this->queryContainer = $queryContainer;
         $this->repository = $repository;
@@ -65,7 +71,7 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
     }
 
     /**
-     * @param  int[]  $productAbstractIds
+     * @param int[] $productAbstractIds
      *
      * @return array
      */
@@ -83,22 +89,23 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
         if (!isset($localesByStore[$storeTransfer->getName()])) {
             $localesByStore[$storeTransfer->getName()] = $storeTransfer->getAvailableLocaleIsoCodes();
         }
-        $productConcreteEntities = $this->getProductConcreteEntitiesWithProductSearchEntities($productAbstractIds,
-            $localesByStore[$storeTransfer->getName()]);
-        $allProductAbstractLocalizedEntities[] = $this->hydrateProductAbstractLocalizedEntitiesWithProductConcreteEntities($productConcreteEntities,
-            $productAbstractLocalizedEntities);
-
+        $productConcreteEntities = $this->getProductConcreteEntitiesWithProductSearchEntities(
+            $productAbstractIds,
+            $localesByStore[$storeTransfer->getName()]
+        );
+        $allProductAbstractLocalizedEntities[] = $this->hydrateProductAbstractLocalizedEntitiesWithProductConcreteEntities(
+            $productConcreteEntities,
+            $productAbstractLocalizedEntities
+        );
 
         return array_merge(...$allProductAbstractLocalizedEntities);
     }
 
     /**
-     * @param  int[]  $productConcreteIds
-     * @param  string[]  $localeIsoCodes
+     * @param int[] $productConcreteIds
+     * @param string[] $localeIsoCodes
      *
      * @return array
-     *
-     * @throws \Propel\Runtime\Exception\PropelException
      */
     protected function getProductSearchEntitiesByProductConcreteIdsAndLocaleIsoCodes(
         array $productConcreteIds,
@@ -111,6 +118,31 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
                 $localeIds[] = array_search($isoCode, $locales);
             }
         }
+
         return $this->repository->queryProductAbstractIdsByProductIds($productConcreteIds, $localeIds);
+    }
+
+    /**
+     * @param array $productCategories
+     * @param array $productAbstractLocalizedEntities
+     *
+     * @return array
+     */
+    protected function hydrateProductAbstractLocalizedEntitiesWithProductCategories(array $productCategories, array $productAbstractLocalizedEntities)
+    {
+        $productCategoriesByProductAbstractId = [];
+
+        foreach ($productCategories as $productCategory) {
+            $productCategoriesByProductAbstractId[$productCategory['fk_product_abstract']][] = $productCategory;
+        }
+
+        foreach ($productAbstractLocalizedEntities as $key => $productAbstractLocalizedEntity) {
+            $productAbstractId = (int)$productAbstractLocalizedEntity['fk_product_abstract'];
+            if (array_key_exists($productAbstractId, $productCategoriesByProductAbstractId)) {
+                $productAbstractLocalizedEntities[$key]['SpyProductAbstract']['SpyProductCategories'] = $productCategoriesByProductAbstractId[$productAbstractId];
+            }
+        }
+
+        return $productAbstractLocalizedEntities;
     }
 }
