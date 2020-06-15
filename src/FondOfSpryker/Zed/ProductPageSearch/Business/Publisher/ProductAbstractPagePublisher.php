@@ -6,7 +6,7 @@ use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLoc
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchRepositoryInterface;
-use Propel\Runtime\Propel;
+use Spryker\Shared\Log\LoggerTrait;
 use Spryker\Zed\ProductPageSearch\Business\Mapper\ProductPageSearchMapperInterface;
 use Spryker\Zed\ProductPageSearch\Business\Model\ProductPageSearchWriterInterface;
 use Spryker\Zed\ProductPageSearch\Business\Publisher\ProductAbstractPagePublisher as SprykerProductAbstractPagePublisher;
@@ -14,6 +14,8 @@ use Spryker\Zed\ProductPageSearch\ProductPageSearchConfig;
 
 class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher implements ProductAbstractPagePublisherInterface
 {
+    use LoggerTrait;
+
     /**
      * @var \FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface
      */
@@ -124,7 +126,7 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
             $entities = $this->repository->queryProductAbstractIdsByProductIds($productConcreteIds, $localeIds);
         }catch (\Exception $exception){
             $entities = [];
-            Propel::log($exception->getMessage(), Propel::LOG_INFO);
+            $this->getLogger()->info($exception->getMessage(), $exception->getTrace());
         }
 
         return $entities;
