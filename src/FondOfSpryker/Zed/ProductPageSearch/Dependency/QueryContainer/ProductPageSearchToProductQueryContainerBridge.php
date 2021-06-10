@@ -1,6 +1,8 @@
 <?php
 
 namespace FondOfSpryker\Zed\ProductPageSearch\Dependency\QueryContainer;
+
+use FondOfSpryker\Zed\Product\Persistence\ProductQueryContainerInterface;
 use Orm\Zed\Product\Persistence\SpyProductAbstractQuery;
 use Orm\Zed\Product\Persistence\SpyProductAbstractStoreQuery;
 use Spryker\Zed\ProductPageSearch\Dependency\QueryContainer\ProductPageSearchToProductQueryContainerBridge as SprykerProductPageSearchToProductQueryContainerBridge;
@@ -8,11 +10,16 @@ use Spryker\Zed\ProductPageSearch\Dependency\QueryContainer\ProductPageSearchToP
 class ProductPageSearchToProductQueryContainerBridge extends SprykerProductPageSearchToProductQueryContainerBridge implements ProductPageSearchToProductQueryContainerInterface
 {
     /**
-     * @return \Orm\Zed\Product\Persistence\SpyProductAbstractStoreQuery
+     * @var \FondOfSpryker\Zed\Product\Persistence\ProductQueryContainerInterface
      */
-    public function queryProductAbstractStoreWithStoresByFkProductAbstract(): SpyProductAbstractStoreQuery
+    protected $productQueryContainer;
+
+    /**
+     * @param \FondOfSpryker\Zed\Product\Persistence\ProductQueryContainerInterface $productQueryContainer
+     */
+    public function __construct(ProductQueryContainerInterface $productQueryContainer)
     {
-        return $this->productQueryContainer->queryProductAbstractStoreWithStoresByFkProductAbstract();
+        parent::__construct($productQueryContainer);
     }
 
     /**

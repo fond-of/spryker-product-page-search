@@ -10,11 +10,12 @@ use Spryker\Zed\ProductPageSearch\Persistence\ProductPageSearchRepositoryInterfa
 interface ProductPageSearchRepositoryInterface extends SprykerProductPageSearchRepositoryInterface
 {
     /**
-     * @param  array|int[]  $productIds
-     * @param  array|int[]  $localeIds
-     * @return array
+     * @param int[] $productIds
+     * @param int[] $localeIds
      *
      * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return array
      */
     public function queryProductAbstractIdsByProductIds(array $productIds, array $localeIds): array;
 }

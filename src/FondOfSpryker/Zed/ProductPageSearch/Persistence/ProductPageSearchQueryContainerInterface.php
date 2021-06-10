@@ -8,8 +8,9 @@ use Spryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInt
 interface ProductPageSearchQueryContainerInterface extends SprykerProductPageSearchQueryContainerInterface
 {
     /**
-     * @return \Orm\Zed\Product\Persistence\SpyProductAbstractStoreQuery
      * @throws \Spryker\Zed\Propel\Business\Exception\AmbiguousComparisonException
+     *
+     * @return \Orm\Zed\Product\Persistence\SpyProductAbstractStoreQuery
      */
     public function queryProductAbstractIdsByCurrentStore(): SpyProductAbstractStoreQuery;
 }

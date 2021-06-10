@@ -26,8 +26,6 @@ class ProductPageEventResourceQueryContainerPlugin extends SprykerProductPageEve
      * @param int[] $ids
      *
      * @return \Propel\Runtime\ActiveQuery\ModelCriteria|null
-     *
-     * @throws \Spryker\Zed\Propel\Business\Exception\AmbiguousComparisonException
      */
     public function queryData(array $ids = []): ?ModelCriteria
     {
@@ -53,7 +51,7 @@ class ProductPageEventResourceQueryContainerPlugin extends SprykerProductPageEve
     {
         $name = SpyProductTableMap::COL_FK_PRODUCT_ABSTRACT;
 
-        if ($this->isOverwritten){
+        if ($this->isOverwritten) {
             $name = SpyProductAbstractStoreTableMap::COL_FK_PRODUCT_ABSTRACT;
         }
 

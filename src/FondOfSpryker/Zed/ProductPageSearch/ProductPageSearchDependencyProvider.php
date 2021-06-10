@@ -1,6 +1,7 @@
 <?php
 
 namespace FondOfSpryker\Zed\ProductPageSearch;
+
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeBridge;
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeBridge;
@@ -14,7 +15,7 @@ use Spryker\Zed\ProductPageSearch\ProductPageSearchDependencyProvider as Spryker
  */
 class ProductPageSearchDependencyProvider extends SprykerProductPageSearchDependencyProvider
 {
-    const FACADE_LOCALE = 'FACADE_LOCALE';
+    public const FACADE_LOCALE = 'FACADE_LOCALE';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -42,6 +43,7 @@ class ProductPageSearchDependencyProvider extends SprykerProductPageSearchDepend
 
         return $container;
     }
+
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *

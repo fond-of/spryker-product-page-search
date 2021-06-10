@@ -15,11 +15,12 @@ use Spryker\Zed\ProductPageSearch\Persistence\ProductPageSearchRepository as Spr
 class ProductPageSearchRepository extends SprykerProductPageSearchRepository implements ProductPageSearchRepositoryInterface
 {
     /**
-     * @param  array|int[]  $productIds
-     * @param  array|int[]  $localeIds
-     * @return array
+     * @param int[] $productIds
+     * @param int[] $localeIds
      *
      * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return array
      */
     public function queryProductAbstractIdsByProductIds(
         array $productIds,
@@ -27,18 +28,22 @@ class ProductPageSearchRepository extends SprykerProductPageSearchRepository imp
     ): array {
         //Dirty Workaround, I know
         $connection = $this->getFactory()->getPublicQueryContainer()->getConnection();
+
+        $sql = sprintf(
+            'SELECT * FROM %s WHERE %s IN (%s) AND %s IN (%s)',
+            SpyProductSearchTableMap::TABLE_NAME,
+            SpyProductSearchTableMap::COL_FK_LOCALE,
+            implode(',', $localeIds),
+            SpyProductSearchTableMap::COL_FK_PRODUCT,
+            implode(',', $productIds)
+        );
+
         try {
-            $sql = sprintf('SELECT * FROM %s WHERE %s IN (%s) AND %s IN (%s)',
-                SpyProductSearchTableMap::TABLE_NAME,
-                SpyProductSearchTableMap::COL_FK_LOCALE,
-                implode(',', $localeIds),
-                SpyProductSearchTableMap::COL_FK_PRODUCT,
-                implode(',', $productIds)
-            );
             $stmt = $connection->prepare($sql);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
+
             throw new PropelException(sprintf('Unable to execute SELECT statement [%s]', $sql), 0, $e);
         }
 
