@@ -6,7 +6,7 @@
     <transfer name="ProductPageSearch">
         <property name="idProductAbstract" type="int"/>
         <property name="idImageSet" type="int"/>
-        <property name="categoryNodeIds" singular="categoryNodeId" type="array"/>
+        <property name="categoryNodeIds" singular="categoryNodeIds" type="array"/>
         <property name="isActive" type="bool"/>
         <property name="sku" type="string"/>
         <property name="name" type="string"/>
