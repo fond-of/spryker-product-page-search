@@ -10,14 +10,13 @@ use Spryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainer as
  */
 class ProductPageSearchQueryContainer extends SprykerProductPageSearchQueryContainer implements ProductPageSearchQueryContainerInterface
 {
-
     /**
      * @return \Orm\Zed\Product\Persistence\SpyProductAbstractStoreQuery
-     * @throws \Spryker\Zed\Propel\Business\Exception\AmbiguousComparisonException
      */
     public function queryProductAbstractIdsByCurrentStore(): SpyProductAbstractStoreQuery
     {
         return $this->getFactory()->getProductQueryContainer()
-            ->queryProductAbstractStore()->filterByFkStore($this->getFactory()->getStoreFacade()->getCurrentStore()->getIdStore());
+            ->queryProductAbstractStore()
+            ->filterByFkStore($this->getFactory()->getStoreFacade()->getCurrentStore()->getIdStore());
     }
 }

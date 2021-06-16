@@ -2,9 +2,9 @@
 
 namespace FondOfSpryker\Zed\ProductPageSearch\Persistence;
 
+use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\QueryContainer\ProductPageSearchToProductQueryContainerInterface;
 use FondOfSpryker\Zed\ProductPageSearch\ProductPageSearchDependencyProvider;
-use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
 use Spryker\Zed\ProductPageSearch\Persistence\ProductPageSearchPersistenceFactory as SprykerProductPageSearchPersistenceFactory;
 
 /**

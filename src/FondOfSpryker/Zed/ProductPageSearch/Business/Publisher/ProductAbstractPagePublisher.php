@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\ProductPageSearch\Business\Publisher;
 
+use Exception;
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToLocaleFacadeInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Dependency\Facade\ProductPageSearchToStoreFacadeInterface;
 use FondOfSpryker\Zed\ProductPageSearch\Persistence\ProductPageSearchQueryContainerInterface;
@@ -124,7 +125,7 @@ class ProductAbstractPagePublisher extends SprykerProductAbstractPagePublisher i
 
         try {
             $entities = $this->repository->queryProductAbstractIdsByProductIds($productConcreteIds, $localeIds);
-        }catch (\Exception $exception){
+        } catch (Exception $exception) {
             $entities = [];
             $this->getLogger()->info($exception->getMessage(), $exception->getTrace());
         }

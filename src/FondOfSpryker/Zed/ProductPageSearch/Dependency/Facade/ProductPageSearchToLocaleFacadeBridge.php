@@ -12,8 +12,7 @@ class ProductPageSearchToLocaleFacadeBridge implements ProductPageSearchToLocale
     protected $localeFacade;
 
     /**
-     * ProductPageSearchToLocaleFacadeBridge constructor.
-     * @param  \Spryker\Zed\Locale\Business\LocaleFacadeInterface  $localeFacade
+     * @param \Spryker\Zed\Locale\Business\LocaleFacadeInterface $localeFacade
      */
     public function __construct(LocaleFacadeInterface $localeFacade)
     {
